@@ -1,0 +1,19 @@
+(executable
+ (name integration)
+ (modes native)
+ (flags -w a-32)
+ (modules integration)
+ (libraries time2 integration))
+
+(executable
+ (name queens)
+ (modes native)
+ (flags -w a-32)
+ (modules queens)
+ (libraries time2 generic_search queens))
+
+(executable
+ (name runner)
+ (modes native)
+ (modules runner)
+ (libraries time2 generic_search queens integration domainslib))

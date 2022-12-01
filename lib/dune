@@ -1,0 +1,26 @@
+(library
+ (name time2)
+ (wrapped false)
+ (modules time2)
+ (libraries unix))
+
+(library
+ (name bench)
+ (wrapped false)
+ (modules bench)
+ (libraries time2))
+
+(library
+ (name generic_search)
+ (modules generic_search)
+ (libraries multicont))
+
+(library
+ (name queens)
+ (modules queens)
+ (libraries generic_search zarith))
+
+(library
+ (name integration)
+ (modules integration)
+ (libraries multicont zarith))
