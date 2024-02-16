@@ -255,7 +255,7 @@ let main () =
 
 let _ =
   let usage_msg =
-    "./runner [--sequential | --parallel [ --njobs=<num> ] ] [ --repetitions=<num> ]"
+    "./runner [--sequential | --parallel [ --njobs <num> ] ] [ --repetitions <num> ]"
   in
   let unknown_arg arg =
     Printf.fprintf stderr "error: unknown argument %s\n%!" arg
