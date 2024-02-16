@@ -1,4 +1,4 @@
-# Asymptotic Speedup via Effect Handlers
+# Asymptotic Speedup via Effect Handlers Artifact
 
 This repository contains the supplementary code and data for "Section
 11: Experiments" in the "Asymptotic Speedup via Effect Handlers"
@@ -21,29 +21,31 @@ like those reported in the paper.
 
 The artifact is structured as follows
 
-1. [Getting Started Guide](#getting-started-guide) enumerates the software and hardware requirements to build and run the artifact software.
-2. [Step by Step Instructions](#step-by-step-instructions] is a detailed guide on how to run the experiments inside a Docker container running the provided Docker image.
-3. The section Inspecting the Source Files highlights some relevant source files with our WasmFX additions.
-4. The section The WasmFX Toolchains describes how our "toolchains" work.
-.5 The section Reference Machine Specification contains some detailed information about the reference machine used to conduct the experiments.
+1. [Getting Started Guide](#getting-started-guide) enumerates the
+   software to build and run the experiments
+2. [Step by Step Instructions](#step-by-step-instructions) details how
+   to run the experiments
+3. [Reference Machine Specification](#reference-machine-specification)
+   contains some detailed information about the reference machine used
+   to conduct the experiments.
 
 The directory structure of the artifact is as follows
 
 * `bin/` contains the source code for the experiments runner and
-  individual runners the queens and integration benchmarks.
+  individual runners the queens and integration benchmarks
 * `lib/` contains some support code and the source code for the queens
-  and integration benchmarks.
+  and integration benchmarks
 * `data/` contains the datasets that the results in Section 11 of the
-  paper are based on.
+  paper are based on
 * `results/` contains the processed datasets, i.e. with complete
-  calculations.
+  calculations
 * `Dockerfile` a build script to build a Docker image with required
   dependencies and code to run the experiments
 * `LICENSE` is the license which the provided code -- if not stated
   otherwise -- is licensed under
 * `Makefile` a make file script for building, running, and cleaning
   the experiments
-* `README.md` is this file.
+* `README.md` is this file
 
 The entire source code of this artifact is available on GitHub
 (https://github.com/dhil/asymptotic-speedup-via-effect-handlers-code-jfp).
@@ -69,12 +71,8 @@ system.
 
 ## Step by Step Instructions
 
-The following instructions assume you want to evaluate the artifact
-using the provided Docker image. If you want to build the artifact
-from source, then please follow the detailed instructions in the
-Dockerfile. Nonetheless, the Dockerfile should be considered as an
-addendum to these instructions as it contains additional commentary on
-the compilation flags necessary to reproduce the experiments.
+The experiments can be run either using your own OCaml installation or
+using the provided Docker script.
 
 ### Step 0: Unpack the artifact
 
@@ -139,8 +137,9 @@ Successfully tagged asymp-speed-handlers:latest
 
 We provide a runner script to run the experiments. By default this
 script runs eleven repetitions of each benchmark in parallel on six
-cores, the following subsections assumes you will use the default
-configuration. If you want to use other settings, then invoke
+cores; the following subsections assumes you will use the default
+configuration. Invoke the following command to display the possible
+settings
 
 ```
 $ opam exec -- dune exec bin/runner.exe -- --help
@@ -156,6 +155,7 @@ $ opam exec -- dune exec bin/runner.exe -- --help
 To use the single threaded runner with five repetitions, simply invoke
 
 ```
+$ mkdir data/  # this directory must exist before initiating a run
 $ opam exec -- dune exec bin/runner.exe -- --sequential --repetitions 5
 ```
 
@@ -163,6 +163,7 @@ To use more or less parallelism simply set the `njobs` parameter,
 e.g. to use sixteen cores invoke the following command
 
 ```
+$ mkdir data/  # this directory must exist before initiating a run
 $ opam exec -- dune exec bin/runner.exe -- --njobs 16
 ```
 
