@@ -55,7 +55,7 @@ The entire source code of this artifact is available on GitHub
 To conduct the experiments you will need the following software
 components:
 
-1. An x86_64 Debian 11 (bookworm) or equivalent Linux system
+1. A Debian 11 (bookworm) or equivalent Linux system
    (e.g. Ubuntu 22.04 LTS)
 2. OPAM version 2.1.0 or higher
 3. OCaml compiler and runtime version 5.1.1
