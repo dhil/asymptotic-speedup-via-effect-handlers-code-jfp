@@ -1,5 +1,9 @@
 (* Experiments runner *)
 
+let use_parallel_runner : bool ref = ref true
+let nparallel_jobs : int ref = ref 6
+let nrepetitions : int ref = ref 11
+
 module List = struct
   include List
 
@@ -174,6 +178,22 @@ end
 module Runner = struct
   module T = Domainslib.Task
 
+  let sequential_run : Task.t list -> Result.t array
+    = fun tasks ->
+    let tasks = Array.of_list tasks in
+    let results : Result.t option array = Array.make (Array.length tasks) None in
+    for i = 0 to (Array.length tasks - 1) do
+      let task = Array.get tasks i in
+      match task with
+      | QueensTask ({ input; f; _ } as task) ->
+         let (result, elapsed) = f input in
+         Array.set results i (Some Result.(QueensResult { result; elapsed; task }))
+      | IntegrationTask ({ precision; iterations; g; _ } as task) ->
+         let (result, elapsed) = g precision iterations in
+         Array.set results i (Some Result.(IntegrationResult { result; elapsed; task }))
+    done;
+    Array.map Option.get results
+
   let parallel_run : int -> Task.t list -> Result.t array
     = fun njobs tasks ->
     let tasks = Array.of_list tasks in
@@ -203,12 +223,16 @@ let rec run : (string * Task.t list) list -> int -> unit
   | (fname, tasks) :: ts ->
      let oc = open_out fname in
      let tasks = List.replicate_elem repetitions tasks in
-     let results = Runner.parallel_run 6 tasks in
+     let results =
+       if !use_parallel_runner
+       then Runner.parallel_run !nparallel_jobs tasks
+       else Runner.sequential_run tasks
+     in
      Array.iter (fun result -> output_string oc (Printf.sprintf "%s\n" (Result.to_csv_string result))) results;
      flush oc; close_out oc; run ts repetitions
 
 let main () =
-  let repetitions = 11 in
+  let repetitions = !nrepetitions in
   let (queens_one, queens_all) =
     let open Queens_Experiments in
     let procedures = [Naive; Berger; Pruned; Eff; Bespoke] in
@@ -222,10 +246,25 @@ let main () =
     , prepare integrators (fun _ -> Integration.square) [(14, 1); (17, 1); (20, 1)]
     , prepare integrators (fun n -> Integration.(iter n logistic)) [(15, 1); (15, 2); (15, 3); (15, 4); (15, 5)])
   in
-  run [ ("data/queens.one.csv", queens_one); ("data/queens.all.csv", queens_all)
+  run [ ("data/queens.one.csv", queens_one)
+      ; ("data/queens.all.csv", queens_all)
       ; ("data/integration.id.csv", integration_id)
       ; ("data/integration.square.csv", integration_square)
       ; ("data/integration.logistic.csv", integration_logistic) ]
     repetitions
 
-let _ = main ()
+let _ =
+  let usage_msg =
+    "./runner [--sequential | --parallel [ --njobs=<num> ] ] [ --repetitions=<num> ]"
+  in
+  let unknown_arg arg =
+    Printf.fprintf stderr "error: unknown argument %s\n%!" arg
+  in
+  let speclist =
+    [ ("--sequential", Arg.Clear use_parallel_runner, "Use a single thread to run the experiments (default: false)")
+    ; ("--parallel", Arg.Set use_parallel_runner, "Use multiple threads to run the experiments (default: true)")
+    ; ("--njobs", Arg.Set_int nparallel_jobs, "The number of threads to use with the parallel runner (default: 6)")
+    ; ("--repetitions", Arg.Set_int nrepetitions, "The number of times to repeat each experiment") ]
+  in
+  Arg.parse speclist unknown_arg usage_msg;
+  main ()
