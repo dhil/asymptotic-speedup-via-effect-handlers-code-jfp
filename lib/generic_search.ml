@@ -118,7 +118,6 @@ end
 
 (* 'Pure functional' implementation of findOne using Berger's algorithm. *)
 (* Version with vectors: no in-place update. *)
-(* NB findAll not currently implemented *)
 
 module Fun_Search : GENERIC_SEARCH = struct
   let name = "fun"
