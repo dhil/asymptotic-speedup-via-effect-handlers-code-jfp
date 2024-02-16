@@ -1,9 +1,10 @@
 .PHONY: build
 build: bin/dune lib/dune
 	opam exec -- dune build
+	mkdir -p data
 
 .PHONY: run
-run:
+run:	data
 	opam exec -- dune exec bin/runner.exe
 
 .PHONY: single-threaded-run
@@ -13,4 +14,4 @@ single-threaded-run:
 .PHONY: clean
 clean:
 	opam exec -- dune clean
-	rm -rf data && mkdir data
+	rm -rf data
