@@ -7,9 +7,9 @@ WORKDIR /artifact
 
 ## Install dependencies
 
-# Install standard utility + opam
+# Install standard utility + opam + libgmp-dev
 RUN apt-get update && \
-    apt-get install -y opam git curl
+    apt-get install -y opam git curl libgmp-dev
 
 # Install and setup OCaml environment
 RUN opam init -y --disable-sandboxing --bare

@@ -16,6 +16,7 @@ bug-reports:
   "https://github.com/dhil/asymptotic-speedup-via-effect-handlers-code-jfp/issues"
 depends: [
   "ocaml" {= "5.1.1"}
+  "domainslib" {= "0.5.1"}
   "multicont" {= "1.0.1"}
   "zarith" {= "1.13"}
   "dune" {>= "3.14"}

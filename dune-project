@@ -17,6 +17,7 @@
  (synopsis "Accompanying code for the 'Asymptotic Speedup via Effect Handlers' article")
  (description "Source code and data for the experiments described in Section 10")
  (depends (ocaml (= 5.1.1))
+          (domainslib (= 0.5.1))
           (multicont (= 1.0.1))
           (zarith (= 1.13))
            dune)
