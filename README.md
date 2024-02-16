@@ -1,10 +1,10 @@
 # Asymptotic Speedup via Effect Handlers
 
 This repository contains the supplementary code and data for "Section
-10: Experiments" in the "Asymptotic Speedup via Effect Handlers"
+11: Experiments" in the "Asymptotic Speedup via Effect Handlers"
 article (accepted to JFP February 2024).
 
-This document explains how to reproduce the results in Section 10 of
+This document explains how to reproduce the results in Section 11 of
 the paper.  We recommend reading this document using a Markdown
 renderer, e.g. on GitHub
 (https://github.com/dhil/asymptotic-speedup-via-effect-handlers-code-jfp).
@@ -33,7 +33,7 @@ The directory structure of the artifact is as follows
   individual runners the queens and integration benchmarks.
 * `lib/` contains some support code and the source code for the queens
   and integration benchmarks.
-* `data/` contains the datasets that the results in Section 10 of the
+* `data/` contains the datasets that the results in Section 11 of the
   paper are based on.
 * `results/` contains the processed datasets, i.e. with complete
   calculations.
